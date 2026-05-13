@@ -4,10 +4,31 @@ public class Program
 {
     static void Main(string[] args)
     {
-        // This project is here for you to use as a "Sandbox" to play around
-        // with any code or ideas you have that do not directly apply to
-        // one of your projects.
+        List<int> numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-        Console.WriteLine("Hello Sandbox World!");
+
+        RotateListRight(numbers, 8);
+
+        foreach (int number in numbers)
+        {
+            Console.WriteLine(number);
+        }
+        
+        static void RotateListRight(List<int> data, int amount)
+        {
+            List<int> numbers = new List<int>();
+            int index = (data.Count()) - amount;
+
+            List<int> slice = data.GetRange(index, amount);
+            data.RemoveRange(index, amount);
+
+            for (int i = 0; i < amount; i++)
+            {
+                data.Insert(i, slice[i]);
+            }
+            
+
+
+        }
     }
 }
