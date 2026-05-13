@@ -46,7 +46,7 @@ public static class Arrays
         // ---- PLAN AND EXPLANATION ----
         //1 - I will create a list of integers called numbers
         //2 - Then I will calculate the start index based on the data count minus the amount
-        //3 - I will create a slice list to store the range of data starting from that index
+        //3 - I will create a slice list to store the range of data starting from that index to the amount index (endpoint)
         //4 - After that, I will remove that same range from the original data list
         //5 - Finally, I will write a for loop that will run the number of times equal to amount
         //at each loop, it will insert the value from slice into the data list at the current i index
