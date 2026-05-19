@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using System.Diagnostics;
+
+/// <summary>
 /// Maintain a Customer Service Queue.  Allows new customers to be 
 /// added and allows customers to be serviced.
 /// </summary>
@@ -11,11 +13,15 @@ public class CustomerService {
         // Test Cases
 
         // Test 1
-        // Scenario: 
-        // Expected Result: 
+        // Scenario: User inserted a queue value less than 0
+        // Expected Result: 10
         Console.WriteLine("Test 1");
 
-        // Defect(s) Found: 
+        var cs1 = new CustomerService(-1);
+        Console.WriteLine(cs1._maxSize);
+        
+
+        // Defect(s) Found: none
 
         Console.WriteLine("=================");
 
@@ -23,10 +29,21 @@ public class CustomerService {
         // Scenario: 
         // Expected Result: 
         Console.WriteLine("Test 2");
-
-        // Defect(s) Found: 
+        var cs2 = new CustomerService(1);
+        var customer1 = new Customer("bro1", "123", "problem");
+        cs2._queue.Add(customer1);
+        cs2.AddNewCustomer();
+        Console.WriteLine(cs2._queue.Count());
+        // Defect(s) Found: it was only getting the error if the queue size was bigger than the limit
 
         Console.WriteLine("=================");
+
+        Console.WriteLine("Test 3");
+        var cs3 = new CustomerService(1);
+        cs3._queue.Add(customer1);
+        cs3.ServeCustomer();
+
+        //defects: it was deleting the customer before its values were assigned and displayed
 
         // Add more Test Cases As Needed Below
     }
@@ -67,7 +84,7 @@ public class CustomerService {
     /// </summary>
     private void AddNewCustomer() {
         // Verify there is room in the service queue
-        if (_queue.Count > _maxSize) {
+        if (_queue.Count >= _maxSize) {
             Console.WriteLine("Maximum Number of Customers in Queue.");
             return;
         }
@@ -88,9 +105,9 @@ public class CustomerService {
     /// Dequeue the next customer and display the information.
     /// </summary>
     private void ServeCustomer() {
-        _queue.RemoveAt(0);
         var customer = _queue[0];
         Console.WriteLine(customer);
+        _queue.RemoveAt(0);
     }
 
     /// <summary>
