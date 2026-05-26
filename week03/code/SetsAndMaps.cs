@@ -1,4 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Text.Json;
+using System.Diagnostics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 public static class SetsAndMaps
 {
@@ -21,8 +24,22 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        var wordSet = new HashSet<string>(words);
+        var pairsSet = new HashSet<string>();
+        foreach (string word in wordSet)
+        {
+            string reversed = new string(word.Reverse().ToArray());
+            if (wordSet.Contains(reversed) && reversed != word)
+            {
+                pairsSet.Add($"{word} & {reversed}");
+                wordSet.Remove(word);
+                wordSet.Remove(reversed);
+            }
+        }
+        string []pairs = pairsSet.ToArray<string>();
+
+        
+        return pairs;
     }
 
     /// <summary>
@@ -42,6 +59,17 @@ public static class SetsAndMaps
         foreach (var line in File.ReadLines(filename))
         {
             var fields = line.Split(",");
+            string degree = fields[3];
+
+            if (degrees.ContainsKey(degree))
+            {
+                degrees[degree]+= 1;
+            }
+            else
+            {
+                degrees[degree] = 1;
+            }
+
             // TODO Problem 2 - ADD YOUR CODE HERE
         }
 
@@ -66,8 +94,40 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        var dict1 = new Dictionary<char, int>();
+        var dict2 = new Dictionary<char, int>();
+        string cleanWord1 = word1.ToLower().Replace(" ", "");
+        string cleanWord2 = word2.ToLower().Replace(" ", "");
+
+        foreach (var n in cleanWord1)
+        {
+            if (dict1.ContainsKey(n))
+            {
+                dict1[n]++;
+            }
+            else
+            {
+                dict1[n] = 1;
+            }
+        }
+
+        foreach (var n in cleanWord2)
+        {
+            if (dict2.ContainsKey(n))
+            {
+                dict2[n]++;
+            }
+            else
+            {
+                dict2[n] = 1;
+            }
+        }
+
+        bool isAnagram = dict1.Count == dict2.Count && 
+                 dict1.All(kvp => dict2.TryGetValue(kvp.Key, out var valor2) && Equals(kvp.Value, valor2));
+
+        
+        return isAnagram;
     }
 
     /// <summary>
